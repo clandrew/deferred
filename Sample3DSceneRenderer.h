@@ -55,6 +55,7 @@ namespace SpinningCube
 		Microsoft::WRL::ComPtr<ID3D12Resource>				m_cubeIndexBuffer;
 		D3D12_VERTEX_BUFFER_VIEW							m_cubeVertexBufferView;
 		D3D12_INDEX_BUFFER_VIEW								m_cubeIndexBufferView;
+		std::vector<VertexPositionNormalColor> m_cubeVertices;
 
 		Microsoft::WRL::ComPtr<ID3D12Resource>				m_quadVertexBuffer;
 		Microsoft::WRL::ComPtr<ID3D12Resource>				m_quadIndexBuffer;

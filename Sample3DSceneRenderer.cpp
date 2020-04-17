@@ -33,61 +33,74 @@ Sample3DSceneRenderer::~Sample3DSceneRenderer()
 	m_mappedConstantBuffer = nullptr;
 }
 
+void AddCubeVertices(std::vector<VertexPositionNormalColor>* cubeVertices, XMFLOAT3 scale, XMFLOAT3 disp)
+{
+	std::vector<VertexPositionNormalColor> buffer;
+
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 0.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, 0.5f, -0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 1.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, 0.5f, -0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 1.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, 0.5f, 0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 1.0f, 1.0f)));
+
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 0.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, -0.5f, 0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, -0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 1.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, -0.5f, 0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 1.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, -0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 1.0f, 0.0f)));
+
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(0.0f, 0.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(0.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, -0.5f, 0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(1.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(0.0f, 0.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, -0.5f, 0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(1.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(1.0f, 0.0f, 0.0f)));
+
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, 0.5f, -0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(0.0f, 1.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, -0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(1.0f, 1.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(1.0f, 1.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, 0.5f, -0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(0.0f, 1.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(1.0f, 1.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, 0.5f, 0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(0.0f, 1.0f, 1.0f)));
+
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(0.0f, 0.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(1.0f, 0.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(1.0f, 1.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(0.0f, 0.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(1.0f, 1.0f, 0.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, 0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(0.0f, 1.0f, 0.0f)));
+
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(0.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, 0.5f, 0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(0.0f, 1.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(1.0f, 1.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(-0.5f, -0.5f, 0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(0.0f, 0.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, 0.5f, 0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(1.0f, 1.0f, 1.0f)));
+	buffer.push_back(VertexPositionNormalColor(XMFLOAT3(0.5f, -0.5f, 0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(1.0f, 0.0f, 1.0f)));
+
+	for (size_t i = 0; i < buffer.size(); ++i)
+	{
+		buffer[i].position.x *= scale.x;
+		buffer[i].position.y *= scale.y;
+		buffer[i].position.z *= scale.z;
+
+		buffer[i].position.x += disp.x;
+		buffer[i].position.y += disp.y;
+		buffer[i].position.z += disp.z;
+		cubeVertices->push_back(buffer[i]);
+	}
+}
+
 Sample3DSceneRenderer::UploadResource Sample3DSceneRenderer::CreateCubeGeometryResources()
 {
 	UploadResource uploadResource{};
 
 	auto d3dDevice = m_deviceResources->GetD3DDevice();
-
-	VertexPositionNormalColor cubeVertices[] =
-	{
-		{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0  // -x
-		{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 2
-		{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 1
-		{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 1
-		{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 2
-		{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(-1, 0, 0), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 3
-
-		{ XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 0.0f, 0.0f) },  // 4 // +x
-		{ XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 0.0f, 1.0f) }, // 5
-		{ XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 6
-		{ XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 0.0f, 1.0f) }, // 5
-		{ XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 7
-		{ XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT3(1, 0, 0), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 6
-
-		{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0  // -y
-		{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 1
-		{ XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(1.0f, 0.0f, 1.0f) }, // 5
-		{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
-		{ XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(1.0f, 0.0f, 1.0f) }, // 5
-		{ XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT3(0, -1, 0), XMFLOAT3(1.0f, 0.0f, 0.0f) },  // 4
-
-		{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 2
-		{ XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 6
-		{ XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 7
-		{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 2
-		{ XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 7
-		{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0, 1, 0), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 3
-
-		{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
-		{ XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(1.0f, 0.0f, 0.0f) },  // 4
-		{ XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 6
-		{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
-		{ XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 6
-		{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0, 0, -1), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 2
-
-		{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 1
-		{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 3
-		{ XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 7
-		{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 1
-		{ XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 7
-		{ XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT3(0, 0, 1), XMFLOAT3(1.0f, 0.0f, 1.0f) }, // 5
-	};
-
-
-	// Cube vertices. Each vertex has a position and a color.
-
-	const UINT vertexBufferSize = sizeof(cubeVertices);
+		
+	AddCubeVertices(&m_cubeVertices, XMFLOAT3(1, 1, 1), XMFLOAT3(0, 0, 0));
+	
+	const UINT vertexBufferSize = m_cubeVertices.size() * sizeof(VertexPositionNormalColor);
 
 	CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 	CD3DX12_RESOURCE_DESC vertexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize);
@@ -113,7 +126,7 @@ Sample3DSceneRenderer::UploadResource Sample3DSceneRenderer::CreateCubeGeometryR
 	// Upload the vertex buffer to the GPU.
 	{
 		D3D12_SUBRESOURCE_DATA vertexData = {};
-		vertexData.pData = reinterpret_cast<BYTE*>(cubeVertices);
+		vertexData.pData = reinterpret_cast<BYTE*>(m_cubeVertices.data());
 		vertexData.RowPitch = vertexBufferSize;
 		vertexData.SlicePitch = vertexData.RowPitch;
 
@@ -125,7 +138,7 @@ Sample3DSceneRenderer::UploadResource Sample3DSceneRenderer::CreateCubeGeometryR
 	}
 
 	std::vector<unsigned short> cubeIndices;
-	for (unsigned short i = 0; i < _countof(cubeVertices); ++i)
+	for (unsigned short i = 0; i < m_cubeVertices.size(); ++i)
 	{
 		cubeIndices.push_back(i);
 	}
@@ -168,7 +181,7 @@ Sample3DSceneRenderer::UploadResource Sample3DSceneRenderer::CreateCubeGeometryR
 	// Create vertex/index buffer views.
 	m_cubeVertexBufferView.BufferLocation = m_cubeVertexBuffer->GetGPUVirtualAddress();
 	m_cubeVertexBufferView.StrideInBytes = sizeof(VertexPositionNormalColor);
-	m_cubeVertexBufferView.SizeInBytes = sizeof(cubeVertices);
+	m_cubeVertexBufferView.SizeInBytes = m_cubeVertices.size() * sizeof(VertexPositionNormalColor);
 
 	m_cubeIndexBufferView.BufferLocation = m_cubeIndexBuffer->GetGPUVirtualAddress();
 	m_cubeIndexBufferView.SizeInBytes = indexBufferSize;
@@ -619,7 +632,7 @@ bool Sample3DSceneRenderer::Render()
 		m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		m_commandList->IASetVertexBuffers(0, 1, &m_cubeVertexBufferView);
 		m_commandList->IASetIndexBuffer(&m_cubeIndexBufferView);
-		m_commandList->DrawIndexedInstanced(36, 1, 0, 0, 0);
+		m_commandList->DrawIndexedInstanced(m_cubeVertices.size(), 1, 0, 0, 0);
 	}
 
 	// Pass 2

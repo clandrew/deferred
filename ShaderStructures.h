@@ -13,6 +13,8 @@ namespace SpinningCube
 	// Used to send per-vertex data to the vertex shader.
 	struct VertexPositionNormalColor
 	{
+		VertexPositionNormalColor(DirectX::XMFLOAT3 p, DirectX::XMFLOAT3 n, DirectX::XMFLOAT3 c)
+			: position(p), normal(n), color(c) {}
 		DirectX::XMFLOAT3 position;
 		DirectX::XMFLOAT3 normal;
 		DirectX::XMFLOAT3 color;
