@@ -313,16 +313,12 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
         NAME_D3D12_OBJECT(m_writeGbufferRootSignature);
 	}
 	{
-		CD3DX12_DESCRIPTOR_RANGE srvRange;
-		CD3DX12_DESCRIPTOR_RANGE cbvRange;
-		CD3DX12_ROOT_PARAMETER parameters[2];
+		CD3DX12_DESCRIPTOR_RANGE range;
+		CD3DX12_ROOT_PARAMETER parameter;
 
 		// 3 descriptors; one for each array slice
-		srvRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 3, 0);
-		parameters[0].InitAsDescriptorTable(1, &srvRange, D3D12_SHADER_VISIBILITY_PIXEL);
-
-		cbvRange.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
-		parameters[1].InitAsDescriptorTable(1, &cbvRange, D3D12_SHADER_VISIBILITY_VERTEX);
+		range.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 3, 0);
+		parameter.InitAsDescriptorTable(1, &range, D3D12_SHADER_VISIBILITY_PIXEL);
 
 		D3D12_ROOT_SIGNATURE_FLAGS rootSignatureFlags =
 			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT | // Only the input assembler stage needs access to the constant buffer.
@@ -347,7 +343,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 		sampler.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 		CD3DX12_ROOT_SIGNATURE_DESC descRootSignature;
-		descRootSignature.Init(_countof(parameters), parameters, 1, &sampler, rootSignatureFlags);
+		descRootSignature.Init(1, &parameter, 1, &sampler, rootSignatureFlags);
 
 		ComPtr<ID3DBlob> pSignature;
 		ComPtr<ID3DBlob> pError;
@@ -627,19 +623,13 @@ bool Sample3DSceneRenderer::Render()
 	}
 
 	// Pass 2
-{
-
+	{
 		m_commandList->SetGraphicsRootSignature(m_writeTargetRootSignature.Get());
-		ID3D12DescriptorHeap* ppHeaps[] = { m_gbufferSrvHeap.Get(), m_cbvHeap.Get() };
+		ID3D12DescriptorHeap* ppHeaps[] = { m_gbufferSrvHeap.Get() };
 		m_commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
-		// GBuffer SRV
-		CD3DX12_GPU_DESCRIPTOR_HANDLE gbufferSrvHandle(m_gbufferSrvHeap->GetGPUDescriptorHandleForHeapStart());
-		m_commandList->SetGraphicsRootDescriptorTable(0, gbufferSrvHandle);
-
-		// Constant buffer
-		CD3DX12_GPU_DESCRIPTOR_HANDLE cbvHandle(m_cbvHeap->GetGPUDescriptorHandleForHeapStart(), m_deviceResources->GetCurrentFrameIndex(), m_cbvDescriptorSize);
-		m_commandList->SetGraphicsRootDescriptorTable(1, cbvHandle);
+		CD3DX12_GPU_DESCRIPTOR_HANDLE gpuHandle(m_gbufferSrvHeap->GetGPUDescriptorHandleForHeapStart());
+		m_commandList->SetGraphicsRootDescriptorTable(0, gpuHandle);
 
 		m_commandList->SetPipelineState(m_writeTargetPipelineState.Get());
 

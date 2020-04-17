@@ -36,13 +36,14 @@ PixelShaderInput main(VertexShaderInput input)
 	output.pos = pos;
 
 	float4 norm = float4(input.norm, 1.0f);
-	// vector not a position, so it isn't transformed to the view
-	// It is transformed in model space though, because as the model turns around the normal does too
 	norm = mul(norm, model);
+	norm = mul(norm, view);
+	norm = mul(norm, projection);
 	output.norm = norm;
 
-	float4 lightPosition = float4(2000, 2000, -2000, 0.0f);
-	// Light position is fixed in world space, and does not move around with the model transform.
+	// eye = { 0.0f, 0.7f, 1.5f, 0.0f };
+	float4 lightPosition = float4(0.0f, 10.7f, 1.5f, 0.0f);
+	lightPosition = mul(lightPosition, model);
 	lightPosition = mul(lightPosition, view);
 	lightPosition = mul(lightPosition, projection);
 	output.lightPosition = lightPosition;
