@@ -1,0 +1,26 @@
+
+Intro
+- Why deferred rendering?
+- Control the cost of lighting
+- Normally, lighting is per rasterized pixel
+- This is wasteful if you have a lot of occluded geometry.
+- The raw number of lighting computations you need is bound by how many screen space pixels there are.
+
+Deferred rendering takes that concept, and uses it.
+- Divide up all your rendering work into two passes.
+Pass 1: render all your geometry as normal. BIND MULTIPLE RENDER TARGETS
+Write to all your output buffers.
+Call these "gbuffers".
+
+Pass 2: Bind gbuffers as input.
+Sample them to get whatever you need to compute lighting.
+
+Why not deferred rendering
+
+Other topics
+- Optimization - size of gbuffer
+- Encode depth only, a 1D value, and reverse-engineer position
+
+Takeaways
+It's important that you know what deferred rendering is.
+If you're introducing D3D features, it's important that you know about it as a scenario and don't try to screw it over (e.g., by introducing that doesn't work when writing to multiple render targets.)
